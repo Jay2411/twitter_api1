@@ -285,7 +285,7 @@ app.post("/user/updateComment/:comment_id",verifyToken, async (req, res) => {
 });
 
 
-app.post("/user/deleteComment/:comment_id",verifyToken, async (req, res) => {
+app.get("/user/deleteComment/:comment_id",verifyToken, async (req, res) => {
   let comment_id = req.params.comment_id || null;
   let data = {};
 
@@ -316,7 +316,7 @@ app.post("/auth/signup", async (req, res) => {
   let dob = '24/01/01'
   let data = {}
   let insertUserData = `INSERT INTO twitter_users (name,username,password,city,state,country,dob) VALUES` +
-    `(${name},${username},${pass},${city},${state},${country},${dob})`;
+    `('${name}','${username}','${pass}','${city}','${state}','${country}','${dob}')`;
   try {
     let result = await performQuery(insertUserData)
     data.user_id = result.insertId;
@@ -338,7 +338,7 @@ app.post("/auth/login", async (req, res) => {
   try {
     let result = await performQuery(loginuser)
     if (result.length > 0) {
-      userToken = generateToken(result[0].user_id);
+      userToken = genarateToken(result[0].user_id);
       data.token = userToken
       data.status = true
       res.send(data)
